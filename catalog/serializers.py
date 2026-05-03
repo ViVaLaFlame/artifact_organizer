@@ -1,10 +1,16 @@
 from rest_framework import serializers
-from .models import Find, Site
+from .models import Find, Site, Material
 
 class SiteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Site
         fields = '__all__'
+
+class MaterialSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Material
+        fields = '__all__'
+
 
 class FindSerializer(serializers.ModelSerializer):
     site_name = serializers.CharField(source='site.name', read_only=True)
