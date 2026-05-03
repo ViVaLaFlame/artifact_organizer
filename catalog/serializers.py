@@ -9,7 +9,9 @@ class SiteSerializer(serializers.ModelSerializer):
 class FindSerializer(serializers.ModelSerializer):
     site_name = serializers.CharField(source='site.name', read_only=True)
     era_name = serializers.CharField(source='era.name', read_only=True)
+    author_name = serializers.CharField(source='author.username', read_only=True)
 
     class Meta:
         model = Find
         fields = '__all__'
+        read_only_fields = ['author']

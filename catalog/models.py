@@ -19,8 +19,7 @@ class Culture(models.Model):
         return self.name
 
 class ArtifactType(models.Model):
-    name = models.CharField(max_length=100, verbose_name="Тип артефакта")
-    category = models.CharField(max_length=100, verbose_name="Категория")
+    name = models.CharField(max_length=100, verbose_name="Категория (Тип)")
     description = models.TextField(blank=True, verbose_name="Описание")
 
     def __str__(self):
