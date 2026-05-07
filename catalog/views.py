@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from .models import Find, Site, Material
-from .serializers import FindSerializer, SiteSerializer, MaterialSerializer
+from .models import Find, Site, Material, Era, Culture, ArtifactType
+from .serializers import FindSerializer, SiteSerializer, MaterialSerializer, EraSerializer, ArtifactTypeSerializer, CultureSerializer
 
 class SiteViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Site.objects.all()
@@ -10,6 +10,18 @@ class SiteViewSet(viewsets.ReadOnlyModelViewSet):
 class MaterialViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Material.objects.all()
     serializer_class = MaterialSerializer
+
+class EraViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Era.objects.all()
+    serializer_class = EraSerializer
+
+class CultureViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Culture.objects.all()
+    serializer_class = CultureSerializer
+
+class ArtifactTypeViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = ArtifactType.objects.all()
+    serializer_class = ArtifactTypeSerializer
     
 class FindViewSet(viewsets.ModelViewSet):
     queryset = Find.objects.select_related('site', 'era', 'culture').order_by('-created_at')

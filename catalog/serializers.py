@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Find, Site, Material
+from .models import Find, Site, Material, Era, Culture, ArtifactType
 
 class SiteSerializer(serializers.ModelSerializer):
     class Meta:
@@ -11,6 +11,20 @@ class MaterialSerializer(serializers.ModelSerializer):
         model = Material
         fields = '__all__'
 
+class EraSerializer(serializers.ModelSerializer):
+    class Meta:
+      model = Era
+      fields = '__all__'
+
+class CultureSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Culture
+        fields = '__all__'
+
+class ArtifactTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ArtifactType
+        fields = '__all__'
 
 class FindSerializer(serializers.ModelSerializer):
     site_name = serializers.CharField(source='site.name', read_only=True)
