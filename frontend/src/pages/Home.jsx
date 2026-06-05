@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
@@ -11,20 +11,22 @@ const Home = () => {
     const [artifactTypes, setArtifactTypes] = useState([]);
 
     const [formData, setFormData] = useState({
-      title: '',
-      inv_number: '',
-      status: 'field',
-      description: '',
-      site: '',
-      era: '',
-      culture: '',
-      artifact_type: '',
-      materials: [],
-      depth: '',
-      layer: '',
-      dimensions: '',
-      weight: '',
-      conditon: ''
+        title: '',
+        inv_number: '',
+        status: 'field',
+        description: '',
+        site: '',
+        era: '',
+        culture: '',
+        artifact_type: '',
+        materials: [],
+        depth: '',
+        layer: '',
+        dimensions: '',
+        weight: '',
+        condition: '',
+        image: null,
+        gallery: []
     });
 
     const [message, setMessage] = useState('');
@@ -32,14 +34,14 @@ const Home = () => {
 
     useEffect(() => {
         if (isAuthenticated) {
-            const fetchData = async () => {
+            const fetchAllData = async () => {
                 try {
                     const [sRes, mRes, eRes, cRes, tRes] = await Promise.all([
                         axios.get('http://127.0.0.1:8000/api/sites/'),
                         axios.get('http://127.0.0.1:8000/api/materials/'),
                         axios.get('http://127.0.0.1:8000/api/eras/'),
                         axios.get('http://127.0.0.1:8000/api/cultures/'),
-                        axios.get('http://127.0.0.1:8000/api/types/'),
+                        axios.get('http://127.0.0.1:8000/api/types/')
                     ]);
 
                     setSites(sRes.data.results || sRes.data);
@@ -51,35 +53,38 @@ const Home = () => {
                     const firstSite = (sRes.data.results || sRes.data)[0]?.id || '';
                     const firstEra = (eRes.data.results || eRes.data)[0]?.id || '';
                     const firstType = (tRes.data.results || tRes.data)[0]?.id || '';
-
-                    setFormData(prev => ({
-                        ...prev,
-                        site: firstSite,
-                        era: firstEra,
-                        artifact_type: firstType
+                    
+                    setFormData(prev => ({ 
+                        ...prev, 
+                        site: firstSite, 
+                        era: firstEra, 
+                        artifact_type: firstType 
                     }));
 
                 } catch (err) {
-                    console.error('Ошибка загрузки данных:', err);
+                    console.error("Ошибка загрузки данных:", err);
                 }
             };
-            fetchData();
+            fetchAllData();
         }
     }, [isAuthenticated]);
 
     const handleChange = (e) => {
-      setFormData({
-        ...formData,
-        [e.target.name]: e.target.value
-      });
+        setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
     const handleMultipleSelect = (e) => {
         const selectedValues = Array.from(e.target.selectedOptions, option => option.value);
-        setFormData({
-            ...formData,
-            [e.target.name]: selectedValues
-        });
+        setFormData({ ...formData, [e.target.name]: selectedValues });
+    };
+
+    const handleMainImageChange = (e) => {
+        setFormData({ ...formData, image: e.target.files[0] });
+    };
+
+    const handleGalleryChange = (e) => {
+        const filesArray = Array.from(e.target.files);
+        setFormData({ ...formData, gallery: filesArray });
     };
 
     const handleSubmit = async (e) => {
@@ -89,48 +94,71 @@ const Home = () => {
 
         try {
             const token = localStorage.getItem('accessToken');
-            await axios.post('http://127.0.0.1:8000/api/finds/', formData, {
+            const data = new FormData();
+            
+            data.append('title', formData.title);
+            data.append('inv_number', formData.inv_number);
+            data.append('status', formData.status);
+            data.append('description', formData.description);
+            data.append('site', formData.site);
+            data.append('era', formData.era);
+            data.append('artifact_type', formData.artifact_type);
+            
+            if (formData.culture) data.append('culture', formData.culture);
+            if (formData.depth) data.append('depth', formData.depth);
+            if (formData.layer) data.append('layer', formData.layer);
+            if (formData.dimensions) data.append('dimensions', formData.dimensions);
+            if (formData.weight) data.append('weight', formData.weight);
+            if (formData.condition) data.append('condition', formData.condition);
+
+            formData.materials.forEach(id => data.append('materials', id));
+
+            if (formData.image) {
+                data.append('image', formData.image);
+            }
+
+            formData.gallery.forEach(file => {
+                data.append('gallery', file); 
+            });
+
+            await axios.post('http://127.0.0.1:8000/api/finds/', data, {
                 headers: { Authorization: `Bearer ${token}` }
             });
 
-            setMessage('Артефакт добавлен');
-            setFormData(prev => ({ 
-                ...prev, 
-                title: '', 
-                inv_number: '', 
-                status: 'field', 
-                description: '',
-                depth: '',
-                layer: '',
-                dimensions: '',
-                weight: '',
-                materials: [],
-                conditon: ''
+            setMessage('Находка и фотогалерея успешно занесены в реестр!');
+            
+            setFormData(prev => ({
+                ...prev,
+                title: '', inv_number: '', description: '', depth: '', 
+                layer: '', dimensions: '', weight: '', materials: [], condition: '', image: null, gallery: []
             }));
+            
+            document.getElementById('mainImageInput').value = '';
+            document.getElementById('galleryInput').value = '';
+
         } catch (err) {
             console.error("Ошибка при отправке:", err.response?.data || err.message);
-            setError('Ошибка при добавлении артефакта. Свертесь с данными');
+            setError('Ошибка сохранения. Проверьте заполнение формы.');
         }
     };
 
-      return (
+    return (
         <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '20px 0' }}>
             <div style={{ backgroundColor: '#2c3e50', color: 'white', padding: '40px', borderRadius: '8px', marginBottom: '30px', textAlign: 'center' }}>
                 <h1>ArcheoDB: Полевая регистрация</h1>
-                <p>Единая база данных для артефактов</p>
+                <p>Автоматизированное рабочее место археолога</p>
             </div>
 
             {isAuthenticated ? (
                 <form onSubmit={handleSubmit} style={{ backgroundColor: 'white', padding: '30px', borderRadius: '8px', border: '1px solid #ddd' }}>
                     <h2 style={{ borderBottom: '2px solid #eee', pb: '10px' }}>Новая запись</h2>
                     
-                    {message && <p style={{ color: 'green', fontWeight: 'bold' }}>{message}</p>}
-                    {error && <p style={{ color: 'red' }}>{error}</p>}
+                    {message && <div style={{ padding: '15px', backgroundColor: '#d4edda', color: '#155724', borderRadius: '5px', marginBottom: '20px' }}>{message}</div>}
+                    {error && <div style={{ padding: '15px', backgroundColor: '#f8d7da', color: '#721c24', borderRadius: '5px', marginBottom: '20px' }}>{error}</div>}
 
-                    {/* Секция 1: Основная информация */}
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '20px' }}>
                         <div>
-                            <label>Название артефакта *</label>
+                            <label>Название предмета *</label>
                             <input type="text" name="title" value={formData.title} onChange={handleChange} required style={{ width: '100%', padding: '8px' }} />
                         </div>
                         <div>
@@ -139,7 +167,6 @@ const Home = () => {
                         </div>
                     </div>
 
-                    {/* Секция 2: Стратиграфия и Место */}
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '20px', marginBottom: '20px', padding: '15px', background: '#f9f9f9' }}>
                         <div>
                             <label>Раскоп/Памятник *</label>
@@ -157,7 +184,6 @@ const Home = () => {
                         </div>
                     </div>
 
-                    {/* Секция 3: Классификация */}
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '20px', marginBottom: '20px' }}>
                         <div>
                             <label>Эпоха *</label>
@@ -180,10 +206,9 @@ const Home = () => {
                         </div>
                     </div>
 
-                    {/* Секция 4: Материалы и Физика */}
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '20px', marginBottom: '20px' }}>
                         <div>
-                            <label>Материал/лы (Ctrl + клик) *</label>
+                            <label>Материалы (Ctrl + клик) *</label>
                             <select name="materials" multiple value={formData.materials} onChange={handleMultipleSelect} required style={{ width: '100%', height: '80px' }}>
                                 {materialsList.map(m => <option key={m.id} value={m.id}>{m.name}</option>)}
                             </select>
@@ -198,24 +223,55 @@ const Home = () => {
                         </div>
                     </div>
 
+                    <div style={{ display: 'flex', gap: '20px', marginBottom: '20px' }}>
+                        <div style={{ flex: 1, padding: '15px', border: '1px solid #ccc', borderRadius: '4px', backgroundColor: '#fafafa' }}>
+                            <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '5px' }}>Главное фото (Обложка)</label>
+                            <p style={{ fontSize: '0.85rem', color: '#666', marginTop: 0 }}>Будет отображаться в каталоге.</p>
+                            <input 
+                                id="mainImageInput"
+                                type="file" 
+                                accept="image/*"
+                                onChange={handleMainImageChange} 
+                                style={{ width: '100%', cursor: 'pointer' }}
+                            />
+                        </div>
+                        <div style={{ flex: 1, padding: '15px', border: '1px dashed #ccc', borderRadius: '4px', backgroundColor: '#f0f8ff' }}>
+                            <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '5px' }}>Дополнительные ракурсы (Галерея)</label>
+                            <p style={{ fontSize: '0.85rem', color: '#666', marginTop: 0 }}>Зажмите Ctrl, чтобы выбрать несколько файлов.</p>
+                            <input 
+                                id="galleryInput"
+                                type="file" 
+                                accept="image/*"
+                                multiple
+                                onChange={handleGalleryChange} 
+                                style={{ width: '100%', cursor: 'pointer' }}
+                            />
+                            {formData.gallery.length > 0 && (
+                                <p style={{ fontSize: '0.9rem', color: '#0066cc', marginTop: '10px', fontWeight: 'bold' }}>
+                                    Выбрано дополнительных фото: {formData.gallery.length}
+                                </p>
+                            )}
+                        </div>
+                    </div>
+
                     <div style={{ marginBottom: '20px' }}>
                         <label>Описание и особенности</label>
                         <textarea name="description" value={formData.description} onChange={handleChange} rows="3" style={{ width: '100%', padding: '8px' }}></textarea>
                     </div>
 
-                    <button type="submit" style={{ padding: '15px 30px', backgroundColor: '#27ae60', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer', fontSize: '1rem' }}>
-                        Сохранить
+                    <button type="submit" style={{ padding: '15px 30px', backgroundColor: '#27ae60', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer', fontSize: '1rem', fontWeight: 'bold' }}>
+                        Сохранить в реестр
                     </button>
                 </form>
             ) : (
                 <div style={{ textAlign: 'center', padding: '50px' }}>
-                    <h2>ArcheoDB</h2>
+                    <h2>Добро пожаловать в ArcheoDB</h2>
                     <p>Для внесения данных необходимо авторизоваться в системе.</p>
-                    <Link to="/catalog" style={{ color: '#3498db' }}>Все артефакты</Link>
+                    <Link to="/catalog" style={{ color: '#3498db' }}>Перейти к просмотру каталога</Link>
                 </div>
             )}
         </div>
-      );
+    );
 };
 
 export default Home;

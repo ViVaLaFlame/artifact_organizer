@@ -36,17 +36,55 @@ const FindDetail = () => {
 			</div>
 			<div style={{ display: 'flex', gap: '40px', flexWrap: 'wrap' }}>
 				<div style={{ flex: '1 1 300px' }}>
-					<div style={{
-						width: '100%',
-						height: '300px',
-						backgroundColor: '#eaeaea',
-						borderRadius: '8px',
-						display: 'flex',
-						alignItems: 'center',
-						color: '#888'
-					}}>
-						[Место для фотографии артефакта]
-					</div>
+					{find.image ? (
+            <img 
+                src='{find.image}'
+                alt='{find.title}'
+                style={{
+                    width: '100%',
+                    maxHeight: '400px',
+                    objectFit: 'cover',
+                    borderRadius: '8px',
+                    boxShadow: '0 4px 15px rgba(0,0,0,0.1)'
+                }}
+            />
+          ) : (
+              <div style={{
+                  width: '100%',
+                  height: '300px', 
+                  backgroundColor: '#eaeaea', 
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: '#888',
+                  border: '1px dashed #ccc'
+              }}>
+                Нет фото
+              </div>
+          )}
+          {find.gallery_images && find.gallery_images.length > 0 && (
+            <div style={{ marginTop: '15px' }}>
+              <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                {find.gallery_images.map(imgObj => (
+                  <a key={imgObj.id} href='imgObj.image' target='_blank' rel='noopener noreferrer'>
+                    <img 
+                        src={imgObj.image}
+                        style={{ 
+                          width: '80px', 
+                          height: '80px', 
+                          objectFit: 'cover', 
+                          borderRadius: '4px', 
+                          border: '1px solid #ddd', 
+                          cursor: 'pointer', 
+                          transition: 'transform 0.2s'
+                        }} 
+                      />
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
 				</div>
 				<div style={{ flex: '2 1 400px' }}>
 					<h1 style={{ marginTop: 0, marginBottom: '5px' }}>{find.title}</h1>

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Find, Site, Material, Era, Culture, ArtifactType
+from .models import Find, Site, Material, Era, Culture, ArtifactType, FindImage
 
 class SiteSerializer(serializers.ModelSerializer):
     class Meta:
@@ -26,10 +26,16 @@ class ArtifactTypeSerializer(serializers.ModelSerializer):
         model = ArtifactType
         fields = '__all__'
 
+class FindImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FindImage
+        fields = ['id', 'image']
+
 class FindSerializer(serializers.ModelSerializer):
     site_name = serializers.CharField(source='site.name', read_only=True)
     era_name = serializers.CharField(source='era.name', read_only=True)
     author_name = serializers.CharField(source='author.username', read_only=True)
+    gallery_images = FindImageSerializer(many=True, read_only=True)
 
     class Meta:
         model = Find

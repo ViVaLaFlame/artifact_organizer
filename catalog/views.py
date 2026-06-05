@@ -1,7 +1,13 @@
 from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from .models import Find, Site, Material, Era, Culture, ArtifactType
+from rest_framework.views import APIView
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+from .models import Find, Site, Material, Era, Culture, ArtifactType, FindImage
 from .serializers import FindSerializer, SiteSerializer, MaterialSerializer, EraSerializer, ArtifactTypeSerializer, CultureSerializer
+from .permissions import IsAuthorOrReadOnly
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+
 
 class SiteViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Site.objects.all()
@@ -22,16 +28,35 @@ class CultureViewSet(viewsets.ReadOnlyModelViewSet):
 class ArtifactTypeViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = ArtifactType.objects.all()
     serializer_class = ArtifactTypeSerializer
+
+class UserMeView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        return Response({
+            "username": request.user.username,
+            "email": request.user.email,
+            "date_joined": request.user.date_joined.strftime('%d.%m.%Y')
+        })
     
 class FindViewSet(viewsets.ModelViewSet):
     queryset = Find.objects.select_related('site', 'era', 'culture').order_by('-created_at')
     serializer_class = FindSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAuthenticatedOrReadOnly, IsAuthorOrReadOnly]
 
     filterset_fields = ['status', 'era', 'site', 'culture']
     search_fields = ['inv_nimber', 'title', 'description']
     ordering_fields = ['created_at', 'discovery_date', 'title']
 
     def perform_create(self, serializer):
-        serializer.save(author=self.request.user)
+        find = serializer.save(author=self.request.user)
+        images_data= self.request.FILES.getlist('gallery')
+        for image_data in images_data:
+            FindImage.objects.create(find=find, image=image_data)
+
+    @action(detail=False, methods=['get'], permission_classes={IsAuthenticated})
+    def my(self, request):
+        queryset = Find.objects.filter(author=request.user).select_related('site', 'era', 'culture').order_by('-created_at')
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 

@@ -67,6 +67,7 @@ class Find(models.Model):
     title = models.CharField(max_length=200, verbose_name="Название находки")
     description = models.TextField(blank=True, verbose_name="Описание")
     discovery_date = models.DateField(null=True, blank=True, verbose_name="Дата обнаружения")
+    image = models.ImageField(upload_to='finds_images/', null=True, blank=True, verbose_name='Фото')
     
     # Привязка к месту и стратиграфии
     site = models.ForeignKey(Site, on_delete=models.CASCADE, related_name='finds', verbose_name="Памятник")

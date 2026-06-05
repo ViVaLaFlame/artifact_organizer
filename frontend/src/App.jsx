@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import Catalog from './pages/Catalog';
 import FindDetail from './pages/FindDetail';
 import Login from './pages/Login';
+import Cabinet from './pages/Cabinet';
 
 function App() {
     return (
@@ -15,6 +16,7 @@ function App() {
                     <Route path="/catalog" element={<Catalog />} />
                     <Route path="/catalog/:id" element={<FindDetail />} />
                     <Route path="/login" element={<Login />} />
+                    <Route path="/cabinet" element={<Cabinet />} />
                 </Routes>
             </div>
         </BrowserRouter>

@@ -24,9 +24,14 @@ const Header = () => {
                 <Link to="/" style={{ textDecoration: 'none', color: '#2c3e50' }}>
                     <strong style={{ fontSize: '1.6rem', letterSpacing: '1px' }}>ArcheoDB</strong>
                 </Link>
-                <Link to="/catalog" style={{ textDecoration: 'none', color: '#555', fontWeight: '500' }}>
+                <Link to="/catalog" style={{ textDecoration: 'none', color: '#0066cc', fontWeight: '500' }}>
                     Каталог
                 </Link>
+                {isAuthenticated && (
+                    <Link to={'/cabinet'} style={{ textDecoration: 'none', color: '#0066cc', fontWeight: '500'}}>
+                      Личный кабинет
+                    </Link>
+                )}
             </nav>
 
             <div>
