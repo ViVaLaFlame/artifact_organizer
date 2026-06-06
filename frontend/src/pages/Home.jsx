@@ -4,27 +4,31 @@ import { Link } from 'react-router-dom';
 
 const Home = () => {
     const isAuthenticated = !!localStorage.getItem('accessToken');
-    const [sites, setSites] = useState([]);
+    
     const [materialsList, setMaterialsList] = useState([]);
     const [eras, setEras] = useState([]);
     const [cultures, setCultures] = useState([]);
     const [artifactTypes, setArtifactTypes] = useState([]);
+    const [conditions, setConditions] = useState([]);
 
     const [formData, setFormData] = useState({
         title: '',
-        inv_number: '',
         status: 'field',
+        discovery_date: '',
         description: '',
-        site: '',
         era: '',
         culture: '',
         artifact_type: '',
         materials: [],
+        site: '',
+        excavation_area: '',
+        square: '',
         depth: '',
         layer: '',
         dimensions: '',
         weight: '',
         condition: '',
+        condition_notes: '',
         image: null,
         gallery: []
     });
@@ -36,29 +40,29 @@ const Home = () => {
         if (isAuthenticated) {
             const fetchAllData = async () => {
                 try {
-                    const [sRes, mRes, eRes, cRes, tRes] = await Promise.all([
-                        axios.get('http://127.0.0.1:8000/api/sites/'),
+                    const [mRes, eRes, cRes, tRes, condRes] = await Promise.all([
                         axios.get('http://127.0.0.1:8000/api/materials/'),
                         axios.get('http://127.0.0.1:8000/api/eras/'),
                         axios.get('http://127.0.0.1:8000/api/cultures/'),
-                        axios.get('http://127.0.0.1:8000/api/types/')
+                        axios.get('http://127.0.0.1:8000/api/types/'),
+                        axios.get('http://127.0.0.1:8000/api/conditions/')
                     ]);
 
-                    setSites(sRes.data.results || sRes.data);
                     setMaterialsList(mRes.data.results || mRes.data);
                     setEras(eRes.data.results || eRes.data);
                     setCultures(cRes.data.results || cRes.data);
                     setArtifactTypes(tRes.data.results || tRes.data);
+                    setConditions(condRes.data.results || condRes.data);
 
-                    const firstSite = (sRes.data.results || sRes.data)[0]?.id || '';
                     const firstEra = (eRes.data.results || eRes.data)[0]?.id || '';
                     const firstType = (tRes.data.results || tRes.data)[0]?.id || '';
+                    const firstCondition = (condRes.data.results || condRes.data)[0]?.id || '';
                     
                     setFormData(prev => ({ 
                         ...prev, 
-                        site: firstSite, 
                         era: firstEra, 
-                        artifact_type: firstType 
+                        artifact_type: firstType,
+                        condition: firstCondition
                     }));
 
                 } catch (err) {
@@ -97,18 +101,19 @@ const Home = () => {
             const data = new FormData();
             
             data.append('title', formData.title);
-            data.append('inv_number', formData.inv_number);
             data.append('status', formData.status);
-            data.append('description', formData.description);
-            data.append('site', formData.site);
-            data.append('era', formData.era);
-            data.append('artifact_type', formData.artifact_type);
             
+            const optionalFields = [
+                'description', 'discovery_date', 'site', 'excavation_area', 
+                'square', 'depth', 'layer', 'dimensions', 'weight', 'condition_notes'
+            ];
+            optionalFields.forEach(field => {
+                if (formData[field]) data.append(field, formData[field]);
+            });
+
+            if (formData.era) data.append('era', formData.era);
+            if (formData.artifact_type) data.append('artifact_type', formData.artifact_type);
             if (formData.culture) data.append('culture', formData.culture);
-            if (formData.depth) data.append('depth', formData.depth);
-            if (formData.layer) data.append('layer', formData.layer);
-            if (formData.dimensions) data.append('dimensions', formData.dimensions);
-            if (formData.weight) data.append('weight', formData.weight);
             if (formData.condition) data.append('condition', formData.condition);
 
             formData.materials.forEach(id => data.append('materials', id));
@@ -116,7 +121,6 @@ const Home = () => {
             if (formData.image) {
                 data.append('image', formData.image);
             }
-
             formData.gallery.forEach(file => {
                 data.append('gallery', file); 
             });
@@ -125,12 +129,13 @@ const Home = () => {
                 headers: { Authorization: `Bearer ${token}` }
             });
 
-            setMessage('Находка и фотогалерея успешно занесены в реестр!');
+            setMessage('Артефакт добавлен');
             
             setFormData(prev => ({
                 ...prev,
-                title: '', inv_number: '', description: '', depth: '', 
-                layer: '', dimensions: '', weight: '', materials: [], condition: '', image: null, gallery: []
+                title: '', discovery_date: '', description: '', site: '', excavation_area: '', square: '', 
+                depth: '', layer: '', dimensions: '', weight: '', condition_notes: '', 
+                materials: [], image: null, gallery: []
             }));
             
             document.getElementById('mainImageInput').value = '';
@@ -151,36 +156,57 @@ const Home = () => {
 
             {isAuthenticated ? (
                 <form onSubmit={handleSubmit} style={{ backgroundColor: 'white', padding: '30px', borderRadius: '8px', border: '1px solid #ddd' }}>
-                    <h2 style={{ borderBottom: '2px solid #eee', pb: '10px' }}>Новая запись</h2>
+                    
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid #eee', paddingBottom: '10px', marginBottom: '20px' }}>
+                        <h2 style={{ margin: 0 }}>Новая запись</h2>
+                        
+                        <select name="status" value={formData.status} onChange={handleChange} style={{ padding: '8px', fontWeight: 'bold', borderRadius: '4px' }}>
+                            <option value="field">В полевой лаборатории</option>
+                            <option value="storage">В фондах</option>
+                            <option value="exhibition">На экспозиции</option>
+                            <option value="restoration">На реставрации</option>
+                        </select>
+                    </div>
                     
                     {message && <div style={{ padding: '15px', backgroundColor: '#d4edda', color: '#155724', borderRadius: '5px', marginBottom: '20px' }}>{message}</div>}
                     {error && <div style={{ padding: '15px', backgroundColor: '#f8d7da', color: '#721c24', borderRadius: '5px', marginBottom: '20px' }}>{error}</div>}
 
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '20px' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '20px', marginBottom: '20px' }}>
                         <div>
                             <label>Название предмета *</label>
                             <input type="text" name="title" value={formData.title} onChange={handleChange} required style={{ width: '100%', padding: '8px' }} />
                         </div>
                         <div>
-                            <label>Инвентарный номер *</label>
-                            <input type="text" name="inv_number" value={formData.inv_number} onChange={handleChange} required style={{ width: '100%', padding: '8px' }} />
+                            <label>Дата обнаружения</label>
+                            <input type="date" name="discovery_date" value={formData.discovery_date} onChange={handleChange} style={{ width: '100%', padding: '8px' }} />
                         </div>
                     </div>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '20px', marginBottom: '20px', padding: '15px', background: '#f9f9f9' }}>
-                        <div>
-                            <label>Раскоп/Памятник *</label>
-                            <select name="site" value={formData.site} onChange={handleChange} required style={{ width: '100%', padding: '8px' }}>
-                                {sites.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
-                            </select>
+                    <div style={{ backgroundColor: '#f9f9f9', padding: '15px', borderRadius: '5px', marginBottom: '20px' }}>
+                        <h4 style={{ margin: '0 0 15px 0', color: '#555' }}>Местоположение (Стратиграфия)</h4>
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '20px', marginBottom: '15px' }}>
+                            <div>
+                                <label>Раскоп:</label>
+                                <input type="text" name="site" value={formData.site} onChange={handleChange} style={{ width: '100%', padding: '8px' }} />
+                            </div>
+                            <div>
+                                <label>Участок</label>
+                                <input type="text" name="excavation_area" value={formData.excavation_area} onChange={handleChange} style={{ width: '100%', padding: '8px' }} placeholder="№ участка" />
+                            </div>
+                            <div>
+                                <label>Квадрат:</label>
+                                <input type="text" name="square" value={formData.square} onChange={handleChange} style={{ width: '100%', padding: '8px' }} placeholder="№ квадрата" />
+                            </div>
                         </div>
-                        <div>
-                            <label>Глубина (м)</label>
-                            <input type="number" step="0.01" name="depth" value={formData.depth} onChange={handleChange} style={{ width: '100%', padding: '8px' }} />
-                        </div>
-                        <div>
-                            <label>Пласт / Слой</label>
-                            <input type="text" name="layer" value={formData.layer} onChange={handleChange} style={{ width: '100%', padding: '8px' }} />
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                            <div>
+                                <label>Глубина (м)</label>
+                                <input type="number" step="0.01" name="depth" value={formData.depth} onChange={handleChange} style={{ width: '100%', padding: '8px' }} />
+                            </div>
+                            <div>
+                                <label>Пласт / Слой</label>
+                                <input type="text" name="layer" value={formData.layer} onChange={handleChange} style={{ width: '100%', padding: '8px' }} />
+                            </div>
                         </div>
                     </div>
 
@@ -214,12 +240,18 @@ const Home = () => {
                             </select>
                         </div>
                         <div>
-                            <label>Размеры (см)</label>
-                            <input type="text" name="dimensions" value={formData.dimensions} onChange={handleChange} placeholder="напр. 10х5х2" style={{ width: '100%', padding: '8px' }} />
-                        </div>
-                        <div>
+                            <label>Размеры (ДxШxВ)</label>
+                            <input type="text" name="dimensions" value={formData.dimensions} onChange={handleChange} placeholder="напр. 10х5х2" style={{ width: '100%', padding: '8px', marginBottom: '10px' }} />
                             <label>Вес (г)</label>
                             <input type="number" name="weight" value={formData.weight} onChange={handleChange} style={{ width: '100%', padding: '8px' }} />
+                        </div>
+                        <div>
+                            <label>Сохранность *</label>
+                            <select name="condition" value={formData.condition} onChange={handleChange} required style={{ width: '100%', padding: '8px', marginBottom: '10px' }}>
+                                {conditions.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+                            </select>
+                            <label>Заметки о сохранности</label>
+                            <textarea name="condition_notes" value={formData.condition_notes} onChange={handleChange} rows="1" style={{ width: '100%', padding: '8px' }} placeholder="Наличие коррозии, трещин..."></textarea>
                         </div>
                     </div>
 
@@ -255,12 +287,12 @@ const Home = () => {
                     </div>
 
                     <div style={{ marginBottom: '20px' }}>
-                        <label>Описание и особенности</label>
+                        <label>Общее описание артефакта</label>
                         <textarea name="description" value={formData.description} onChange={handleChange} rows="3" style={{ width: '100%', padding: '8px' }}></textarea>
                     </div>
 
                     <button type="submit" style={{ padding: '15px 30px', backgroundColor: '#27ae60', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer', fontSize: '1rem', fontWeight: 'bold' }}>
-                        Сохранить в реестр
+                        Сохранить
                     </button>
                 </form>
             ) : (

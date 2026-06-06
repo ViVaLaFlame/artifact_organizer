@@ -6,7 +6,6 @@ const Catalog = () => {
     const [finds, setFinds] = useState([]);
     const [loading, setLoading] = useState(true);
     const [eras, setEras] = useState([]);
-    const [sites, setSites] = useState([]);
 
     const [filters, setFilters] = useState({
         search: '',
@@ -18,12 +17,10 @@ const Catalog = () => {
     useEffect(() => {
         const fetchFiltersData = async () => {
             try {
-                const [eRes, sRes] = await Promise.all([
+                const [eRes] = await Promise.all([
                     axios.get('http://127.0.0.1:8000/api/eras/'),
-                    axios.get('http://127.0.0.1:8000/api/sites/')
                 ]);
                 setEras(eRes.data.results || eRes.data);
-                setSites(sRes.data.results || sRes.data);
             } catch (error) {
                 console.log("Ошибка загрузки фильтров:", error);
             }
@@ -44,11 +41,12 @@ const Catalog = () => {
                 const response = await axios.get(`http://127.0.0.1:8000/api/finds/?${params.toString()}`);
                 setFinds(response.data.results || response.data);
             } catch (error) {
-                console.log("Ошибка при получении данных:", error)
+                console.log("Ошибка при получении данных:", error);
             } finally {
                 setLoading(false);
             }
         };
+        
         const delayDebounceFn = setTimeout(() => {
             fetchFinds();
         }, 300);
@@ -70,11 +68,10 @@ const Catalog = () => {
                     <h3>Поиск</h3>
 
                     <div style={{ marginBottom: '15px' }}>
-                        <label style={{ display: 'block', fontSize: '0.9rem', marginBottom: '5px' }}>Пиши сюда</label>
                         <input 
                             type="text"
                             name="search"
-                            placeholder="Название или инв. №"
+                            placeholder="Название"
                             value={filters.search}
                             onChange={handleFilterChange}
                             style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }} 
@@ -91,10 +88,14 @@ const Catalog = () => {
 
                     <div style={{ marginBottom: '15px' }}>
                         <label style={{ display: 'block', fontSize: '0.9rem', marginBottom: '5px' }}>Раскоп</label>
-                        <select name="site" value={filters.site} onChange={handleFilterChange} style={{ width: '100%', padding: '8px' }}>
-                            <option value="">Все раскопы</option>
-                            {sites.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
-                        </select>
+                        <input 
+                            type="text"
+                            name="site"
+                            placeholder="Введите место..."
+                            value={filters.site || ''}
+                            onChange={handleFilterChange}
+                            style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }} 
+                        />
                     </div>
 
                     <div style={{ marginBottom: '15px' }}>
@@ -139,9 +140,8 @@ const Catalog = () => {
                                         
                                         <h3 style={{ marginTop: 0, marginBottom: '10px', color: '#2c3e50' }}>{item.title}</h3>
                                         <div style={{ fontSize: '0.9rem', color: '#666', marginBottom: '15px' }}>
-                                            <p style={{ margin: '4px 0' }}>№: <strong>{item.inv_number}</strong></p>
-                                            <p style={{ margin: '4px 0' }}>Эпоха: {item.era_name}</p>
-                                            <p style={{ margin: '4px 0' }}>Место: {item.site_name}</p>
+                                            <p style={{ margin: '4px 0' }}>Эпоха: {item.era_name || 'Не указана'}</p>
+                                            <p style={{ margin: '4px 0' }}>Место: {item.site || 'Не указано'}</p>
                                         </div>
                                     </div>
                                     <Link to={`/catalog/${item.id}`} style={{ color: '#0066cc', textDecoration: 'none', fontWeight: 'bold', alignSelf: 'flex-start' }}>

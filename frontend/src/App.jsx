@@ -5,6 +5,7 @@ import Catalog from './pages/Catalog';
 import FindDetail from './pages/FindDetail';
 import Login from './pages/Login';
 import Cabinet from './pages/Cabinet';
+import EditFind from './pages/EditFind';
 
 function App() {
     return (
@@ -17,6 +18,7 @@ function App() {
                     <Route path="/catalog/:id" element={<FindDetail />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/cabinet" element={<Cabinet />} />
+                    <Route path="/edit/:id" element={<EditFind />} />
                 </Routes>
             </div>
         </BrowserRouter>

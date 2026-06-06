@@ -37,23 +37,6 @@ class Material(models.Model):
     def __str__(self):
         return self.name
     
-class Site(models.Model):
-    STATUS_CHOICES = [
-        ('active', 'Активный раскоп'),
-        ('conservation', 'Консервация'),
-        ('finished', 'Исследования завершены'),
-    ]
-    
-    name = models.CharField(max_length=200, verbose_name="Название памятника")
-    location = models.CharField(max_length=255, verbose_name="Местоположение")
-    coordinates_lat = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True, verbose_name="Широта")
-    coordinates_lng = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True, verbose_name="Долгота")
-    description = models.TextField(blank=True, verbose_name="Описание")
-    discovered_year = models.IntegerField(null=True, blank=True, verbose_name="Год открытия")
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='active', verbose_name="Статус")
-
-    def __str__(self):
-        return self.name
     
 class Find(models.Model):
     STATUS_CHOICES = [
@@ -63,14 +46,13 @@ class Find(models.Model):
         ('restoration', 'На реставрации'),
     ]
 
-    inv_number = models.CharField(max_length=50, unique=True, verbose_name="Инвентарный номер")
     title = models.CharField(max_length=200, verbose_name="Название находки")
     description = models.TextField(blank=True, verbose_name="Описание")
     discovery_date = models.DateField(null=True, blank=True, verbose_name="Дата обнаружения")
     image = models.ImageField(upload_to='finds_images/', null=True, blank=True, verbose_name='Фото')
     
     # Привязка к месту и стратиграфии
-    site = models.ForeignKey(Site, on_delete=models.CASCADE, related_name='finds', verbose_name="Памятник")
+    site = models.CharField(max_length=255, blank=True, null=True, verbose_name="Раскоп (место)")
     excavation_area = models.CharField(max_length=50, blank=True, verbose_name="Участок/Раскоп")
     square = models.CharField(max_length=50, blank=True, verbose_name="Квадрат")
     depth = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True, verbose_name="Глубина (м)")
@@ -95,7 +77,7 @@ class Find(models.Model):
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Обновлено")
 
     def __str__(self):
-        return f"{self.inv_number} - {self.title}"
+        return f"{self.title}"
 
 class FindImage(models.Model):
     find = models.ForeignKey(Find, on_delete=models.CASCADE, related_name='images', verbose_name="Находка")

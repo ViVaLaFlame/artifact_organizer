@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const FindDetail = () => {
@@ -7,47 +7,54 @@ const FindDetail = () => {
     const [find, setFind] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
-	useEffect(() => {
-		const fetchFindDetail = async () => {
-			try {
-				const response = await axios.get(`http://127.0.0.1:8000/api/finds/${id}/`);
-				setFind(response.data);
-				setLoading(false);
-			} catch (err) {
-				console.error("Ошибка:", err);
-				setError("Не удалось загрузить данные о находке.");
-				setLoading(false);
-			}
-		};
-		fetchFindDetail();
-	}, [id]);
-	
-	if (loading) return <p>Загрузка...</p>;
-	if (error) return <p style={{ color: 'red' }}>{error}</p>;
-	if (!find) return <p>Находка не найдена в архиве.</p>;
+  useEffect(() => {
+    const fetchFindDetail = async () => {
+      try {
+        const response = await axios.get(`http://127.0.0.1:8000/api/finds/${id}/`);
+        setFind(response.data);
+        setLoading(false);
+      } catch (err) {
+        console.error("Ошибка:", err);
+        setError("Не удалось загрузить данные о находке.");
+        setLoading(false);
+      }
+    };
+    fetchFindDetail();
+  }, [id]);
+  
+  if (loading) return <p>Загрузка...</p>;
+  if (error) return <p style={{ color: 'red' }}>{error}</p>;
+  if (!find) return <p>Находка не найдена в архиве.</p>;
 
-	return (
-		<div style={{ maxWidth: '900px', margin: '0 auto', padding: '20px 0' }}>
-			<div style={{ marginBottom: '20px', fontSize: '0.9rem', color: '#666' }}>
-				<Link to={'/'} style={{ color: '#0066cc', textDecoration: 'none' }}>Главная</Link> /{' '}
-				<Link to={'/catalog'} style={{ color: '#0066cc', textDecoration: 'none' }}>Каталог</Link> /{' '}
-				<span>{find.inv_number}</span>
-			</div>
-			<div style={{ display: 'flex', gap: '40px', flexWrap: 'wrap' }}>
-				<div style={{ flex: '1 1 300px' }}>
-					{find.image ? (
-            <img 
-                src='{find.image}'
-                alt='{find.title}'
-                style={{
-                    width: '100%',
-                    maxHeight: '400px',
-                    objectFit: 'cover',
-                    borderRadius: '8px',
-                    boxShadow: '0 4px 15px rgba(0,0,0,0.1)'
-                }}
-            />
+  return (
+    <div style={{ maxWidth: '900px', margin: '0 auto', padding: '20px 0' }}>
+      <div style={{ marginBottom: '20px', fontSize: '0.9rem', color: '#666' }}>
+        <Link to={'/'} style={{ color: '#0066cc', textDecoration: 'none' }}>Главная</Link> /{' '}
+        <Link to={'/catalog'} style={{ color: '#0066cc', textDecoration: 'none' }}>Каталог</Link> /{' '}
+        <span>{find.title}</span>
+      </div>
+      
+      <div style={{ display: 'flex', gap: '40px', flexWrap: 'wrap' }}>
+        <div style={{ flex: '1 1 300px' }}>
+          {find.image ? (
+            <a href={find.image} target="_blank" rel="noopener noreferrer" style={{ display: 'block', cursor: 'zoom-in' }}>
+                <img 
+                    src={find.image}
+                    alt={find.title}
+                    style={{
+                        width: '100%',
+                        maxHeight: '400px',
+                        objectFit: 'cover',
+                        borderRadius: '8px',
+                        boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
+                        transition: 'opacity 0.2s'
+                    }}
+                    onMouseOver={(e) => e.currentTarget.style.opacity = '0.9'}
+                    onMouseOut={(e) => e.currentTarget.style.opacity = '1'}
+                />
+            </a>
           ) : (
               <div style={{
                   width: '100%',
@@ -63,58 +70,73 @@ const FindDetail = () => {
                 Нет фото
               </div>
           )}
-          {find.gallery_images && find.gallery_images.length > 0 && (
-            <div style={{ marginTop: '15px' }}>
+          
+          {find.images && find.images.length > 0 && (
+            <div style={{ marginTop: '20px' }}>
               <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-                {find.gallery_images.map(imgObj => (
-                  <a key={imgObj.id} href='imgObj.image' target='_blank' rel='noopener noreferrer'>
+                {find.images.map(imgObj => (
+                  <a key={imgObj.id} href={imgObj.image} target='_blank' rel='noopener noreferrer' style={{ cursor: 'zoom-in' }}>
                     <img 
                         src={imgObj.image}
+                        alt="Ракурс"
                         style={{ 
-                          width: '80px', 
-                          height: '80px', 
+                          width: '168px', 
+                          height: '140px', 
                           objectFit: 'cover', 
                           borderRadius: '4px', 
                           border: '1px solid #ddd', 
-                          cursor: 'pointer', 
                           transition: 'transform 0.2s'
-                        }} 
+                        }}
+                        onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+                        onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'} 
                       />
                   </a>
                 ))}
               </div>
             </div>
           )}
-				</div>
-				<div style={{ flex: '2 1 400px' }}>
-					<h1 style={{ marginTop: 0, marginBottom: '5px' }}>{find.title}</h1>
-					<p style={{ color: '#555', fontSize: '1.1rem', marginTop: 0 }}>
-						Инв. номер: <strong>{find.inv_number}</strong>
-					</p>
+        </div>
+        
+        <div style={{ flex: '2 1 400px' }}>
+          <h1 style={{ marginTop: 0, marginBottom: '15px' }}>{find.title}</h1>
 
-					<div style={{ backgroundColor: '#f9f9f9', padding: '20px', borderRadius: '8px', marginTop: '20px' }}>
-						<h3 style={{ marginTop: 0 }}>Паспорт находки</h3>
-						<ul style={{ listStyleType: 'none', padding: 0, lineHeight: '1.8' }}>
-							<li><strong>Памятник (Раскоп):</strong> {find.site_name || 'Не указан'}</li>
-							<li><strong>Эпоха:</strong>{find.era_name || 'Не определена'}</li>
-							{find.depth	&& <li><strong>Глубина:</strong> {find.depth} м</li>}
-							{find.layer	&& <li><strong>Слой:</strong> {find.layer}</li>}
-							{find.dimensiones && <li><strong>Размеры:</strong> {find.dimensiones}</li>}
-							{find.weight && <li><strong>Вес:</strong> {find.weight} г</li>}
-							<li><strong>Текущий статус:</strong> {find.status === 'field' ? 'В полевой лаборатории' : find.status}</li>
-						</ul>
-					</div>
+          <div style={{ backgroundColor: '#f9f9f9', padding: '20px', borderRadius: '8px' }}>
+            <h3 style={{ marginTop: 0, borderBottom: '1px solid #ddd', paddingBottom: '10px' }}>Паспорт находки</h3>
+            <ul style={{ listStyleType: 'none', padding: 0, lineHeight: '1.8', margin: 0 }}>
+              <li><strong>Памятник (Раскоп):</strong> {find.site || 'Не указан'}</li>
+              <li><strong>Эпоха:</strong> {find.era_name || 'Не определена'}</li>
+              {find.depth && <li><strong>Глубина:</strong> {find.depth} м</li>}
+              {find.layer && <li><strong>Слой:</strong> {find.layer}</li>}
+              {find.dimensions && <li><strong>Размеры:</strong> {find.dimensions}</li>}
+              {find.weight && <li><strong>Вес:</strong> {find.weight} г</li>}
+              <li>
+                  <strong>Текущий статус:</strong>{' '}
+                  <span style={{ backgroundColor: '#e8f4f8', padding: '2px 8px', borderRadius: '12px', fontSize: '0.9rem', color: '#2980b9' }}>
+                    {find.status === 'field' ? 'В полевой лаборатории' : (find.status === 'storage' ? 'В фондах' : find.status)}
+                  </span>
+              </li>
+            </ul>
+          </div>
 
-					{find.description && (
-						<div style={{ marginTop: '20px' }}>
-							<h3>Описание:</h3>
-							<p style={{ lineHeight: '1.6' }}>{find.description}</p>
-						</div>
-					)}
-				</div>
-			</div>
-		</div>
-	);
+          {find.description && (
+            <div style={{ marginTop: '20px' }}>
+              <h3 style={{ borderBottom: '1px solid #ddd', paddingBottom: '10px' }}>Описание</h3>
+              <p style={{ lineHeight: '1.6', whiteSpace: 'pre-wrap' }}>{find.description}</p>
+            </div>
+          )}
+        </div>
+        
+        <div style={{ width: '100%', marginTop: '20px', display: 'flex', justifyContent: 'flex-end' }}>
+            <button style={{ height: 45, borderRadius: '4px', cursor: 'pointer', padding: '0 30px', backgroundColor: '#3498db', color: 'white', border: 'none', fontWeight: 'bold', fontSize: '1rem', transition: 'background-color 0.2s'}} 
+                    onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#2980b9'}
+                    onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#3498db'}
+                    onClick={() => navigate(`/edit/${find.id}`)}>
+                Редактировать
+            </button>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default FindDetail;
