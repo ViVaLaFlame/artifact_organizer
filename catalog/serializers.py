@@ -36,7 +36,6 @@ class FindSerializer(serializers.ModelSerializer):
     class Meta:
         model = Find
         fields = '__all__'
-        read_only_fields = ['author']
 
 class ConditionSerializer(serializers.ModelSerializer):
     class Meta:

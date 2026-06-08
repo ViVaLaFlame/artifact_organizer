@@ -45,7 +45,7 @@ class FindViewSet(viewsets.ModelViewSet):
     serializer_class = FindSerializer
     permission_classes = [IsAuthenticatedOrReadOnly, IsAuthorOrReadOnly]
 
-    filterset_fields = ['status', 'era', 'culture']
+    filterset_fields = ['status', 'era', 'culture', 'author__username']
     search_fields = ['title', 'description']
     ordering_fields = ['created_at', 'discovery_date', 'title']
 

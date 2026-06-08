@@ -1,17 +1,21 @@
 import { useState, useEffect } from "react";
 import axios from 'axios';
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 
 const Catalog = () => {
     const [finds, setFinds] = useState([]);
     const [loading, setLoading] = useState(true);
     const [eras, setEras] = useState([]);
+    const [searchParams] = useSearchParams();
+    const [initialAuthor] = searchParams.get('author') || '';
 
     const [filters, setFilters] = useState({
         search: '',
         era: '',
         site: '',
-        status: ''
+        status: '',
+        author: initialAuthor,
+        author__username: ''
     });
 
     useEffect(() => {
@@ -37,6 +41,8 @@ const Catalog = () => {
                 if (filters.era) params.append('era', filters.era);
                 if (filters.site) params.append('site', filters.site);
                 if (filters.status) params.append('status', filters.status);
+                if (filters.author) params.append('author', filters.author);
+                if (filters.author__username) params.append('author__username', filters.author__username);
 
                 const response = await axios.get(`http://127.0.0.1:8000/api/finds/?${params.toString()}`);
                 setFinds(response.data.results || response.data);
@@ -107,9 +113,20 @@ const Catalog = () => {
                             <option value="storage">В фондах</option>
                         </select>
                     </div>
+
+                    <div style={{ marginBottom: '15px' }}>
+                        <label style={{ display: 'block', fontSize: '0.9rem', marginBottom: '5px' }}>Автор</label>
+                        <input 
+                            type="text"
+                            name="author__username"
+                            value={filters.author__username || ''}
+                            onChange={handleFilterChange}
+                            style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }} 
+                        />
+                    </div>
                     
                     <button
-                        onClick={() => setFilters({search: '', era: '', site: '', status: ''})}
+                        onClick={() => setFilters({search: '', era: '', site: '', status: '', author: ''})}
                         style={{ width: '100%', padding: '8px', cursor: 'pointer', backgroundColor: '#ddd', border: 'none', borderRadius: '4px' }}
                     >
                         Сбросить

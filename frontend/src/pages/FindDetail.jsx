@@ -101,7 +101,6 @@ const FindDetail = () => {
           <h1 style={{ marginTop: 0, marginBottom: '15px' }}>{find.title}</h1>
 
           <div style={{ backgroundColor: '#f9f9f9', padding: '20px', borderRadius: '8px' }}>
-            <h3 style={{ marginTop: 0, borderBottom: '1px solid #ddd', paddingBottom: '10px' }}>Паспорт находки</h3>
             <ul style={{ listStyleType: 'none', padding: 0, lineHeight: '1.8', margin: 0 }}>
               <li><strong>Памятник (Раскоп):</strong> {find.site || 'Не указан'}</li>
               <li><strong>Эпоха:</strong> {find.era_name || 'Не определена'}</li>
@@ -114,6 +113,15 @@ const FindDetail = () => {
                   <span style={{ backgroundColor: '#e8f4f8', padding: '2px 8px', borderRadius: '12px', fontSize: '0.9rem', color: '#2980b9' }}>
                     {find.status === 'field' ? 'В полевой лаборатории' : (find.status === 'storage' ? 'В фондах' : find.status)}
                   </span>
+              </li>
+              <li>
+                  <strong>Автор:</strong>{' '}
+                  <Link
+                      to={'/catalog?author${find.author}'}
+                      style={{ color: '#3498db', textDecoration: 'none', fontWeight: 'bold' }}
+                    >
+                      {find.author_name || 'Неизвестно'}
+                  </Link>
               </li>
             </ul>
           </div>
