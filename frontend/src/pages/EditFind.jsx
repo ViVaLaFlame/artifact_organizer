@@ -47,12 +47,12 @@ const EditFind = () => {
         const fetchData = async () => {
             try {
                 const [findRes, mRes, eRes, cRes, tRes, condRes] = await Promise.all([
-                    axios.get(`http://127.0.0.1:8000/api/finds/${id}/`),
-                    axios.get('http://127.0.0.1:8000/api/materials/'),
-                    axios.get('http://127.0.0.1:8000/api/eras/'),
-                    axios.get('http://127.0.0.1:8000/api/cultures/'),
-                    axios.get('http://127.0.0.1:8000/api/types/'),
-                    axios.get('http://127.0.0.1:8000/api/conditions/')
+                    axios.get(`/api/finds/${id}/`),
+                    axios.get('/api/materials/'),
+                    axios.get('/api/eras/'),
+                    axios.get('/api/cultures/'),
+                    axios.get('/api/types/'),
+                    axios.get('/api/conditions/')
                 ]);
 
                 setMaterialsList(mRes.data.results || mRes.data);
@@ -148,7 +148,7 @@ const EditFind = () => {
                 });
             }
 
-            await axios.patch(`http://127.0.0.1:8000/api/finds/${id}/`, data, {
+            await axios.patch(`/api/finds/${id}/`, data, {
                 headers: { 
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'multipart/form-data'

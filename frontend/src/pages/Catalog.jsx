@@ -22,7 +22,7 @@ const Catalog = () => {
         const fetchFiltersData = async () => {
             try {
                 const [eRes] = await Promise.all([
-                    axios.get('http://127.0.0.1:8000/api/eras/'),
+                    axios.get('/api/eras/'),
                 ]);
                 setEras(eRes.data.results || eRes.data);
             } catch (error) {
@@ -44,7 +44,7 @@ const Catalog = () => {
                 if (filters.author) params.append('author', filters.author);
                 if (filters.author__username) params.append('author__username', filters.author__username);
 
-                const response = await axios.get(`http://127.0.0.1:8000/api/finds/?${params.toString()}`);
+                const response = await axios.get(`/api/finds/?${params.toString()}`);
                 setFinds(response.data.results || response.data);
             } catch (error) {
                 console.log("Ошибка при получении данных:", error);

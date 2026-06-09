@@ -16,8 +16,8 @@ const Cabinet = () => {
                 };
 
                 const [userRes, findsRes] = await Promise.all([
-                    axios.get('http://127.0.0.1:8000/api/users/me/', config),
-                    axios.get('http://127.0.0.1:8000/api/finds/my/', config)
+                    axios.get('/api/users/me/', config),
+                    axios.get('/api/finds/my/', config)
                 ]);
 
                 setUser(userRes.data);

@@ -12,7 +12,7 @@ const FindDetail = () => {
   useEffect(() => {
     const fetchFindDetail = async () => {
       try {
-        const response = await axios.get(`http://127.0.0.1:8000/api/finds/${id}/`);
+        const response = await axios.get(`/api/finds/${id}/`);
         setFind(response.data);
         setLoading(false);
       } catch (err) {

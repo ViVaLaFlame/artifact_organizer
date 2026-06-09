@@ -41,11 +41,11 @@ const Home = () => {
             const fetchAllData = async () => {
                 try {
                     const [mRes, eRes, cRes, tRes, condRes] = await Promise.all([
-                        axios.get('http://127.0.0.1:8000/api/materials/'),
-                        axios.get('http://127.0.0.1:8000/api/eras/'),
-                        axios.get('http://127.0.0.1:8000/api/cultures/'),
-                        axios.get('http://127.0.0.1:8000/api/types/'),
-                        axios.get('http://127.0.0.1:8000/api/conditions/')
+                        axios.get('/api/materials/'),
+                        axios.get('/api/eras/'),
+                        axios.get('/api/cultures/'),
+                        axios.get('/api/types/'),
+                        axios.get('/api/conditions/')
                     ]);
 
                     setMaterialsList(mRes.data.results || mRes.data);
@@ -125,7 +125,7 @@ const Home = () => {
                 data.append('gallery', file); 
             });
 
-            await axios.post('http://127.0.0.1:8000/api/finds/', data, {
+            await axios.post('/api/finds/', data, {
                 headers: { Authorization: `Bearer ${token}` }
             });
 

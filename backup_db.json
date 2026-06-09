@@ -1,0 +1,818 @@
+[
+{
+    "model": "auth.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$3tJBs2CfXr8Z18GgQdbW3m$a5bpedLyZ3LpTxKMoBveZI2pga0GkOn0uewa1Q/cBYI=",
+        "last_login": "2026-03-25T17:09:45.296Z",
+        "is_superuser": true,
+        "username": "admin",
+        "first_name": "",
+        "last_name": "",
+        "email": "admin@admin.com",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2026-03-25T17:09:09.796Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$XG6ccUdWScIit9yL5o6yba$6Nm3zqZOY7U/z8lj2ad/F9PSuijANONLRctNcpATUPY=",
+        "last_login": "2026-05-27T13:26:48.256Z",
+        "is_superuser": true,
+        "username": "blablabla",
+        "first_name": "",
+        "last_name": "",
+        "email": "blabla@bla.bla",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2026-04-25T12:48:37.781Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "lutn4lmt8g6notzv79imct1cm8pfkoz8",
+    "fields": {
+        "session_data": ".eJxVjEEOwiAQRe_C2hA6wCAu3fcMZBhAqoYmpV0Z765NutDtf-_9lwi0rTVsPS9hSuIiQJx-t0j8yG0H6U7tNkue27pMUe6KPGiX45zy83q4fweVev3W54QYB_IMhaBkBqeM95GxMJIlr5x2ZigWkkLNTKTAaYgIGjhrY8X7A_D3N8E:1wGcRT:PdngMi5gptxgRUDGZD13-2WOrDyaCc7ez8VGbvI8SEQ",
+        "expire_date": "2026-05-09T12:49:03.222Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "n3qnd2z6at01w7e0k8d2f16hn30so5p9",
+    "fields": {
+        "session_data": ".eJxVjEEOwiAQRe_C2hA6wCAu3fcMZBhAqoYmpV0Z765NutDtf-_9lwi0rTVsPS9hSuIiQJx-t0j8yG0H6U7tNkue27pMUe6KPGiX45zy83q4fweVev3W54QYB_IMhaBkBqeM95GxMJIlr5x2ZigWkkLNTKTAaYgIGjhrY8X7A_D3N8E:1wSEHY:2hVCKUEpU-jHNyJzImNE-pFvR7D4e2EkxEw9KfqEN_Q",
+        "expire_date": "2026-06-10T13:26:48.261Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "o1to0qnz1yq82nlupm983htclbxvdza7",
+    "fields": {
+        "session_data": ".eJxVzM0OwiAQBOB34WwIUP7Wo3efgSwsStVAUtqT8d0tSQ96nW9m3izgtpaw9byEmdiZSXb6zSKmZ64D6IH13nhqdV3myEeFH9r5tVF-XY7u30HBXsbaSphi8lJpCT5r4QxpiwbATkYZRJdJyCmBs5oQhFRux52BvEk3Yp8vsxU20g:1w5Rjl:6Czu2NJ9sP2_SIqf8iISB4n5AC007R-6hNg_C7_oB6A",
+        "expire_date": "2026-04-08T17:09:45.299Z"
+    }
+},
+{
+    "model": "catalog.era",
+    "pk": 8,
+    "fields": {
+        "name": "Палеолит (Древний каменный век)",
+        "start_year": null,
+        "end_year": null
+    }
+},
+{
+    "model": "catalog.era",
+    "pk": 9,
+    "fields": {
+        "name": "Мезолит (Средний каменный век)",
+        "start_year": null,
+        "end_year": null
+    }
+},
+{
+    "model": "catalog.era",
+    "pk": 10,
+    "fields": {
+        "name": "Неолит (Новый каменный век)",
+        "start_year": null,
+        "end_year": null
+    }
+},
+{
+    "model": "catalog.era",
+    "pk": 11,
+    "fields": {
+        "name": "Энеолит (Медно-каменный век)",
+        "start_year": null,
+        "end_year": null
+    }
+},
+{
+    "model": "catalog.era",
+    "pk": 12,
+    "fields": {
+        "name": "Железный век",
+        "start_year": null,
+        "end_year": null
+    }
+},
+{
+    "model": "catalog.era",
+    "pk": 13,
+    "fields": {
+        "name": "Античность",
+        "start_year": null,
+        "end_year": null
+    }
+},
+{
+    "model": "catalog.era",
+    "pk": 14,
+    "fields": {
+        "name": "Средневековье (вкл. Раннее, Высокое и Позднее)",
+        "start_year": null,
+        "end_year": null
+    }
+},
+{
+    "model": "catalog.era",
+    "pk": 15,
+    "fields": {
+        "name": "Раннее Новое время (XVI — XVIII вв.)",
+        "start_year": null,
+        "end_year": null
+    }
+},
+{
+    "model": "catalog.era",
+    "pk": 16,
+    "fields": {
+        "name": "Новое время (XIX — начало XX в.)",
+        "start_year": null,
+        "end_year": null
+    }
+},
+{
+    "model": "catalog.era",
+    "pk": 17,
+    "fields": {
+        "name": "Новейшее время (с 1914 г., эпоха мировых войн и индустриализации)",
+        "start_year": null,
+        "end_year": null
+    }
+},
+{
+    "model": "catalog.culture",
+    "pk": 5,
+    "fields": {
+        "name": "Кловис (Северная Америка)",
+        "era": null,
+        "description": ""
+    }
+},
+{
+    "model": "catalog.culture",
+    "pk": 6,
+    "fields": {
+        "name": "Ольмеки и Майя (Мезоамерика)",
+        "era": null,
+        "description": ""
+    }
+},
+{
+    "model": "catalog.culture",
+    "pk": 7,
+    "fields": {
+        "name": "Ацтеки и Инки (Постклассическая Америка)",
+        "era": null,
+        "description": ""
+    }
+},
+{
+    "model": "catalog.culture",
+    "pk": 8,
+    "fields": {
+        "name": "Наска и Моче (Южная Америка)",
+        "era": null,
+        "description": ""
+    }
+},
+{
+    "model": "catalog.culture",
+    "pk": 9,
+    "fields": {
+        "name": "Минойская и Микенская цивилизации",
+        "era": null,
+        "description": ""
+    }
+},
+{
+    "model": "catalog.culture",
+    "pk": 10,
+    "fields": {
+        "name": "Кельтская (Гальштатская и Латенская культуры)",
+        "era": null,
+        "description": ""
+    }
+},
+{
+    "model": "catalog.culture",
+    "pk": 11,
+    "fields": {
+        "name": "Античная Греция",
+        "era": null,
+        "description": ""
+    }
+},
+{
+    "model": "catalog.culture",
+    "pk": 12,
+    "fields": {
+        "name": "Древний Рим (Римская империя)",
+        "era": null,
+        "description": ""
+    }
+},
+{
+    "model": "catalog.culture",
+    "pk": 13,
+    "fields": {
+        "name": "Этруски",
+        "era": null,
+        "description": ""
+    }
+},
+{
+    "model": "catalog.culture",
+    "pk": 14,
+    "fields": {
+        "name": "Скандинавская (Эпоха викингов)",
+        "era": null,
+        "description": ""
+    }
+},
+{
+    "model": "catalog.culture",
+    "pk": 15,
+    "fields": {
+        "name": "Шумерская и Аккадская (Месопотамия)",
+        "era": null,
+        "description": ""
+    }
+},
+{
+    "model": "catalog.culture",
+    "pk": 16,
+    "fields": {
+        "name": "Вавилон и Ассирия",
+        "era": null,
+        "description": ""
+    }
+},
+{
+    "model": "catalog.culture",
+    "pk": 17,
+    "fields": {
+        "name": "Хараппская (Долина Инда)",
+        "era": null,
+        "description": ""
+    }
+},
+{
+    "model": "catalog.culture",
+    "pk": 18,
+    "fields": {
+        "name": "Династии Шан и Чжоу (Древний Китай)",
+        "era": null,
+        "description": ""
+    }
+},
+{
+    "model": "catalog.culture",
+    "pk": 19,
+    "fields": {
+        "name": "Дзёмон и Яёй (Древняя Япония)",
+        "era": null,
+        "description": ""
+    }
+},
+{
+    "model": "catalog.culture",
+    "pk": 20,
+    "fields": {
+        "name": "Скифо-сарматский мир (Евразийская степь)",
+        "era": null,
+        "description": ""
+    }
+},
+{
+    "model": "catalog.culture",
+    "pk": 21,
+    "fields": {
+        "name": "Додинастический Египет",
+        "era": null,
+        "description": ""
+    }
+},
+{
+    "model": "catalog.culture",
+    "pk": 22,
+    "fields": {
+        "name": "Культура Керма (Нубия)",
+        "era": null,
+        "description": ""
+    }
+},
+{
+    "model": "catalog.culture",
+    "pk": 23,
+    "fields": {
+        "name": "Культура Нок (Западная Африка)",
+        "era": null,
+        "description": ""
+    }
+},
+{
+    "model": "catalog.artifacttype",
+    "pk": 11,
+    "fields": {
+        "name": "Орудие труда / Инструмент",
+        "description": ""
+    }
+},
+{
+    "model": "catalog.artifacttype",
+    "pk": 12,
+    "fields": {
+        "name": "Оружие (холодное и огнестрельное)",
+        "description": ""
+    }
+},
+{
+    "model": "catalog.artifacttype",
+    "pk": 13,
+    "fields": {
+        "name": "Элементы боеприпасов",
+        "description": ""
+    }
+},
+{
+    "model": "catalog.artifacttype",
+    "pk": 14,
+    "fields": {
+        "name": "Посуда / Керамический сосуд",
+        "description": ""
+    }
+},
+{
+    "model": "catalog.artifacttype",
+    "pk": 15,
+    "fields": {
+        "name": "Архитектурный элемент",
+        "description": ""
+    }
+},
+{
+    "model": "catalog.artifacttype",
+    "pk": 16,
+    "fields": {
+        "name": "Монета / Денежный знак",
+        "description": ""
+    }
+},
+{
+    "model": "catalog.artifacttype",
+    "pk": 17,
+    "fields": {
+        "name": "Украшение / Ювелирное изделие",
+        "description": ""
+    }
+},
+{
+    "model": "catalog.artifacttype",
+    "pk": 18,
+    "fields": {
+        "name": "Элемент одежды / Доспеха",
+        "description": ""
+    }
+},
+{
+    "model": "catalog.artifacttype",
+    "pk": 19,
+    "fields": {
+        "name": "Ритуальный / Религиозный предмет",
+        "description": ""
+    }
+},
+{
+    "model": "catalog.artifacttype",
+    "pk": 20,
+    "fields": {
+        "name": "Предмет искусства",
+        "description": ""
+    }
+},
+{
+    "model": "catalog.artifacttype",
+    "pk": 21,
+    "fields": {
+        "name": "Индустриальный артефакт",
+        "description": ""
+    }
+},
+{
+    "model": "catalog.condition",
+    "pk": 3,
+    "fields": {
+        "name": "Сильная коррозия"
+    }
+},
+{
+    "model": "catalog.condition",
+    "pk": 4,
+    "fields": {
+        "name": "Целая"
+    }
+},
+{
+    "model": "catalog.condition",
+    "pk": 5,
+    "fields": {
+        "name": "Незначительные повреждения"
+    }
+},
+{
+    "model": "catalog.condition",
+    "pk": 6,
+    "fields": {
+        "name": "Фрагментированная"
+    }
+},
+{
+    "model": "catalog.condition",
+    "pk": 7,
+    "fields": {
+        "name": "Требует реставрации"
+    }
+},
+{
+    "model": "catalog.condition",
+    "pk": 8,
+    "fields": {
+        "name": "Сильно разрушенная / Тлен"
+    }
+},
+{
+    "model": "catalog.material",
+    "pk": 2,
+    "fields": {
+        "name": "Кремень"
+    }
+},
+{
+    "model": "catalog.material",
+    "pk": 3,
+    "fields": {
+        "name": "Бронза"
+    }
+},
+{
+    "model": "catalog.material",
+    "pk": 4,
+    "fields": {
+        "name": "Железо"
+    }
+},
+{
+    "model": "catalog.material",
+    "pk": 6,
+    "fields": {
+        "name": "Стекло"
+    }
+},
+{
+    "model": "catalog.material",
+    "pk": 7,
+    "fields": {
+        "name": "Обсидиан"
+    }
+},
+{
+    "model": "catalog.material",
+    "pk": 8,
+    "fields": {
+        "name": "Нефрит"
+    }
+},
+{
+    "model": "catalog.material",
+    "pk": 9,
+    "fields": {
+        "name": "Мрамор"
+    }
+},
+{
+    "model": "catalog.material",
+    "pk": 10,
+    "fields": {
+        "name": "Базальт/Гранит"
+    }
+},
+{
+    "model": "catalog.material",
+    "pk": 11,
+    "fields": {
+        "name": "Кость / Рог / Бивень"
+    }
+},
+{
+    "model": "catalog.material",
+    "pk": 12,
+    "fields": {
+        "name": "Дерево"
+    }
+},
+{
+    "model": "catalog.material",
+    "pk": 13,
+    "fields": {
+        "name": "Кожа"
+    }
+},
+{
+    "model": "catalog.material",
+    "pk": 14,
+    "fields": {
+        "name": "Текстиль (ткань)"
+    }
+},
+{
+    "model": "catalog.material",
+    "pk": 15,
+    "fields": {
+        "name": "Пергамент / Папирус / Бумага"
+    }
+},
+{
+    "model": "catalog.material",
+    "pk": 16,
+    "fields": {
+        "name": "Медь"
+    }
+},
+{
+    "model": "catalog.material",
+    "pk": 17,
+    "fields": {
+        "name": "Золото"
+    }
+},
+{
+    "model": "catalog.material",
+    "pk": 18,
+    "fields": {
+        "name": "Серебро"
+    }
+},
+{
+    "model": "catalog.material",
+    "pk": 19,
+    "fields": {
+        "name": "Чугун"
+    }
+},
+{
+    "model": "catalog.material",
+    "pk": 20,
+    "fields": {
+        "name": "Свинец"
+    }
+},
+{
+    "model": "catalog.material",
+    "pk": 21,
+    "fields": {
+        "name": "Алюминий"
+    }
+},
+{
+    "model": "catalog.material",
+    "pk": 22,
+    "fields": {
+        "name": "Керамика (глина)"
+    }
+},
+{
+    "model": "catalog.material",
+    "pk": 23,
+    "fields": {
+        "name": "Фарфор"
+    }
+},
+{
+    "model": "catalog.material",
+    "pk": 24,
+    "fields": {
+        "name": "Бетон / Цемент"
+    }
+},
+{
+    "model": "catalog.material",
+    "pk": 25,
+    "fields": {
+        "name": "Пластик / Бакелит"
+    }
+},
+{
+    "model": "catalog.find",
+    "pk": 1,
+    "fields": {
+        "title": "Железный акинак с бабочковидным перекрестием",
+        "description": "Клинок двулезвийный, линзовидного сечения. Черен рукояти плоский, навершие утрачено.",
+        "discovery_date": null,
+        "image": "",
+        "site": "1",
+        "excavation_area": "Курган Л-13",
+        "square": "",
+        "depth": "1.20",
+        "layer": "Погребальная камера",
+        "dimensions": "45x6x2 см",
+        "weight": "850.00",
+        "condition_notes": "",
+        "era": null,
+        "culture": null,
+        "artifact_type": null,
+        "condition": 3,
+        "author": [
+            "blablabla"
+        ],
+        "status": "field",
+        "created_at": "2026-04-25T14:35:14.112Z",
+        "updated_at": "2026-04-25T14:46:07.606Z",
+        "materials": [
+            4
+        ]
+    }
+},
+{
+    "model": "catalog.find",
+    "pk": 2,
+    "fields": {
+        "title": "Игла с просверленным ушком",
+        "description": "Тщательно отполированная костяная игла. Ушко высверлено тонким каменным сверлом. Одно из древнейших свидетельств пошива одежды.",
+        "discovery_date": null,
+        "image": "",
+        "site": "2",
+        "excavation_area": "Восточная галерея",
+        "square": "",
+        "depth": "3.40",
+        "layer": "11-й литологический слой",
+        "dimensions": "7x0.4x0.3 см",
+        "weight": "12.00",
+        "condition_notes": "",
+        "era": null,
+        "culture": null,
+        "artifact_type": null,
+        "condition": null,
+        "author": [
+            "blablabla"
+        ],
+        "status": "field",
+        "created_at": "2026-04-25T14:48:25.867Z",
+        "updated_at": "2026-04-25T14:48:25.867Z",
+        "materials": []
+    }
+},
+{
+    "model": "catalog.find",
+    "pk": 3,
+    "fields": {
+        "title": "Глиняное биконическое пряслице",
+        "description": "Грузик для веретена, вылеплен от руки, без орнамента. Следы сильного заглаживания на поверхности.",
+        "discovery_date": null,
+        "image": "",
+        "site": "1",
+        "excavation_area": "Центральное селище",
+        "square": "Ж-14",
+        "depth": "0.60",
+        "layer": "Культурный слой X века",
+        "dimensions": "3x3x2.5 см",
+        "weight": "45.00",
+        "condition_notes": "",
+        "era": null,
+        "culture": null,
+        "artifact_type": null,
+        "condition": null,
+        "author": [
+            "blablabla"
+        ],
+        "status": "field",
+        "created_at": "2026-04-25T14:50:09.934Z",
+        "updated_at": "2026-04-25T14:50:09.934Z",
+        "materials": []
+    }
+},
+{
+    "model": "catalog.find",
+    "pk": 4,
+    "fields": {
+        "title": "Коринфский шлем",
+        "description": "Отличное состояние",
+        "discovery_date": "2026-05-27",
+        "image": "finds_images/helmet.jpg",
+        "site": "1",
+        "excavation_area": "Курган Л-13",
+        "square": "Ж-14",
+        "depth": "3.14",
+        "layer": "Погребальная камера",
+        "dimensions": "",
+        "weight": "1000.00",
+        "condition_notes": "",
+        "era": null,
+        "culture": null,
+        "artifact_type": null,
+        "condition": null,
+        "author": [
+            "blablabla"
+        ],
+        "status": "field",
+        "created_at": "2026-05-03T17:10:25.735Z",
+        "updated_at": "2026-05-27T13:30:27.847Z",
+        "materials": [
+            3
+        ]
+    }
+},
+{
+    "model": "catalog.find",
+    "pk": 5,
+    "fields": {
+        "title": "Короткий меч",
+        "description": "",
+        "discovery_date": null,
+        "image": "",
+        "site": "1",
+        "excavation_area": "",
+        "square": "",
+        "depth": "5.00",
+        "layer": "",
+        "dimensions": "31х1х3",
+        "weight": "334.00",
+        "condition_notes": "",
+        "era": null,
+        "culture": null,
+        "artifact_type": null,
+        "condition": null,
+        "author": [
+            "blablabla"
+        ],
+        "status": "field",
+        "created_at": "2026-05-07T20:24:35.107Z",
+        "updated_at": "2026-05-07T20:24:35.107Z",
+        "materials": [
+            4
+        ]
+    }
+},
+{
+    "model": "catalog.find",
+    "pk": 6,
+    "fields": {
+        "title": "Бронзовая чаша",
+        "description": "ЛАЛАЛАЛАЛАЛА",
+        "discovery_date": "2004-02-01",
+        "image": "finds_images/s-l1600.webp",
+        "site": "Новоросийск",
+        "excavation_area": "4",
+        "square": "21",
+        "depth": "13.20",
+        "layer": "4",
+        "dimensions": "45x6x2",
+        "weight": "31.00",
+        "condition_notes": "Потертости по всей длине стенок",
+        "era": 16,
+        "culture": 16,
+        "artifact_type": 14,
+        "condition": 5,
+        "author": [
+            "blablabla"
+        ],
+        "status": "field",
+        "created_at": "2026-06-06T18:07:08.716Z",
+        "updated_at": "2026-06-08T19:11:59.368Z",
+        "materials": [
+            3
+        ]
+    }
+},
+{
+    "model": "catalog.findimage",
+    "pk": 1,
+    "fields": {
+        "find": 6,
+        "image": "finds_images/s-l1600_1.webp",
+        "description": "",
+        "is_main": false,
+        "order_index": 0,
+        "uploaded_at": "2026-06-06T18:07:08.733Z"
+    }
+},
+{
+    "model": "catalog.findimage",
+    "pk": 2,
+    "fields": {
+        "find": 6,
+        "image": "finds_images/s-l1600_2.webp",
+        "description": "",
+        "is_main": false,
+        "order_index": 0,
+        "uploaded_at": "2026-06-06T18:07:08.739Z"
+    }
+}
+]
