@@ -27,7 +27,7 @@ const Login = () => {
                 navigate('/');
                 window.location.reload();
             } else {
-                await axios.post('/register/', {
+                await axios.post('api/register/', {
                     username,
                     password
                 });

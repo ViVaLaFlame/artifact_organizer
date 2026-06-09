@@ -14,7 +14,7 @@ urlpatterns = [
     path('api/schema', SpectacularAPIView.as_view(), name='schema'),
     path('api/users/me/', UserMeView.as_view(), name='user-me'),
     path('swagger', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
-    path('register/', RegisterView.as_view(), name='register')
+    path('api/register/', RegisterView.as_view(), name='register')
 ]
 
 if settings.DEBUG:
