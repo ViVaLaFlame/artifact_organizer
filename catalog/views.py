@@ -1,4 +1,4 @@
-from rest_framework import viewsets, generics
+from rest_framework import viewsets, status
 from rest_framework.views import APIView
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -10,10 +10,31 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny
 from django.contrib.auth.models import User
 
 
-class RegisterView(generics.CreateAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserRegisterSerializer
+class RegisterView(APIView):
     permission_classes = [AllowAny]
+
+    def post(self, request):
+        username = request.data.get('username')
+        password = request.data.get('password')
+
+        if not username or not password:
+            return Response(
+                {'error': 'Пожалуйста, укажите имя пользователя и пароль'}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        if User.objects.filter(username=username).exists():
+            return Response(
+                {'error': 'Пользователь с таким именем уже существует'}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        user = User.objects.create_user(username=username, password=password)
+        
+        return Response(
+            {'success': 'Пользователь успешно зарегистрирован'}, 
+            status=status.HTTP_201_CREATED
+        )
 
 class MaterialViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Material.objects.all()
