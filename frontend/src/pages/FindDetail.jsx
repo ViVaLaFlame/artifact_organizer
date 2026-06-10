@@ -9,6 +9,25 @@ const FindDetail = () => {
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
+    const handleDelete = async () => {
+      const isConfirmed = window.confirm("Вы уверены, что хотите безвозвратно удалить этот артефакт?");
+      
+      if (isConfirmed) {
+          try {
+              const token = localStorage.getItem('accessToken');
+              await axios.delete(`/api/finds/${find.id}/`, {
+                  headers: {
+                      'Authorization': `Bearer ${token}`
+                  }
+              });
+              navigate('/catalog');
+          } catch (err) {
+              console.error('Ошибка при удалении:', err);
+              alert('Ошибка при удалении. Убедитесь, что вы авторизованы и являетесь автором этой записи.');
+          }
+      }
+  };
+
   useEffect(() => {
     const fetchFindDetail = async () => {
       try {
@@ -113,12 +132,19 @@ const FindDetail = () => {
             </div>
           )}
           
-          <div style={{ width: '100%', marginTop: '20px', display: 'flex', justifyContent: 'flex-start' }}>
+          <div style={{ width: '100%', marginTop: '20px', display: 'flex', justifyContent: 'flex-start', gap: '15px' }}>
               <button style={{ width: '100%', maxWidth: '200px', height: 45, borderRadius: '4px', cursor: 'pointer', backgroundColor: '#3498db', color: 'white', border: 'none', fontWeight: 'bold', fontSize: '1rem', transition: 'background-color 0.2s'}} 
                       onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#2980b9'}
                       onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#3498db'}
                       onClick={() => navigate(`/edit/${find.id}`)}>
                   Редактировать
+              </button>
+
+              <button style={{ width: '100%', maxWidth: '200px', height: 45, borderRadius: '4px', cursor: 'pointer', backgroundColor: '#e74c3c', color: 'white', border: 'none', fontWeight: 'bold', fontSize: '1rem', transition: 'background-color 0.2s'}} 
+                      onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#c0392b'}
+                      onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#e74c3c'}
+                      onClick={handleDelete}>
+                  Удалить
               </button>
           </div>
         </div>
