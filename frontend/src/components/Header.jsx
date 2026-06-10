@@ -13,16 +13,24 @@ const Header = () => {
 
     return (
         <header style={{ 
-            padding: '15px 30px', 
+            padding: '15px 20px', 
             borderBottom: '1px solid #ddd', 
             display: 'flex', 
+            flexWrap: 'wrap',
             justifyContent: 'space-between', 
             alignItems: 'center',
-            backgroundColor: '#fff'
+            backgroundColor: '#fff',
+            gap: '15px'
         }}>
-            <nav style={{ display: 'flex', gap: '30px', alignItems: 'center' }}>
-                <Link to="/" style={{ textDecoration: 'none', color: '#2c3e50' }}>
-                    <strong style={{ fontSize: '1.6rem', letterSpacing: '1px' }}>ArcheoDB</strong>
+            <nav style={{ 
+                display: 'flex', 
+                flexWrap: 'wrap', 
+                gap: '15px', 
+                alignItems: 'center',
+                flex: '1 1 auto' 
+            }}>
+                <Link to="/" style={{ textDecoration: 'none', color: '#2c3e50', marginRight: '10px' }}>
+                    <strong style={{ fontSize: '1.5rem', letterSpacing: '1px' }}>ArcheoDB</strong>
                 </Link>
                 <Link to="/catalog" style={{ textDecoration: 'none', color: '#0066cc', fontWeight: '500' }}>
                     Каталог
@@ -34,7 +42,7 @@ const Header = () => {
                 )}
             </nav>
 
-            <div>
+            <div style={{ flexShrink: 0 }}>
                 {isAuthenticated ? (
                     <button onClick={handleLogout} style={{ 
                         padding: '8px 20px', 
@@ -49,12 +57,14 @@ const Header = () => {
                     </button>
                 ) : (
                     <Link to="/login" style={{ 
+                        display: 'inline-block',
                         padding: '8px 20px', 
                         textDecoration: 'none', 
                         backgroundColor: '#27ae60', 
                         color: 'white', 
                         borderRadius: '4px',
-                        fontWeight: 'bold'
+                        fontWeight: 'bold',
+                        textAlign: 'center'
                     }}>
                         Войти
                     </Link>
