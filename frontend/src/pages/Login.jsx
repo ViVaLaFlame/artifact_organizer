@@ -23,6 +23,7 @@ const Login = () => {
                 });
                 localStorage.setItem('accessToken', response.data.access);
                 localStorage.setItem('refreshToken', response.data.refresh);
+                localStorage.setItem('username', username);
 
                 navigate('/');
                 window.location.reload();

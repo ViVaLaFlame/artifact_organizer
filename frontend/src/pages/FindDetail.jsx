@@ -42,7 +42,16 @@ const FindDetail = () => {
     };
     fetchFindDetail();
   }, [id]);
-  
+
+
+  const currentUsername = localStorage.getItem('username');
+
+  const isAuthor = Boolean(
+      currentUsername && 
+      (find?.author?.username === currentUsername || find?.author === currentUsername)
+  );
+
+
   if (loading) return <p>Загрузка...</p>;
   if (error) return <p style={{ color: 'red' }}>{error}</p>;
   if (!find) return <p>Находка не найдена в архиве.</p>;
@@ -132,21 +141,23 @@ const FindDetail = () => {
             </div>
           )}
           
-          <div style={{ width: '100%', marginTop: '20px', display: 'flex', justifyContent: 'flex-start', gap: '15px' }}>
-              <button style={{ width: '100%', maxWidth: '200px', height: 45, borderRadius: '4px', cursor: 'pointer', backgroundColor: '#3498db', color: 'white', border: 'none', fontWeight: 'bold', fontSize: '1rem', transition: 'background-color 0.2s'}} 
-                      onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#2980b9'}
-                      onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#3498db'}
-                      onClick={() => navigate(`/edit/${find.id}`)}>
-                  Редактировать
-              </button>
+          {isAuthor && (
+                <div style={{ width: '100%', marginTop: '20px', display: 'flex', justifyContent: 'flex-start', gap: '15px' }}>
+                    <button style={{ width: '100%', maxWidth: '200px', height: 45, borderRadius: '4px', cursor: 'pointer', backgroundColor: '#3498db', color: 'white', border: 'none', fontWeight: 'bold', fontSize: '1rem', transition: 'background-color 0.2s'}} 
+                            onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#2980b9'}
+                            onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#3498db'}
+                            onClick={() => navigate(`/edit/${find.id}`)}>
+                        Редактировать
+                    </button>
 
-              <button style={{ width: '100%', maxWidth: '200px', height: 45, borderRadius: '4px', cursor: 'pointer', backgroundColor: '#e74c3c', color: 'white', border: 'none', fontWeight: 'bold', fontSize: '1rem', transition: 'background-color 0.2s'}} 
-                      onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#c0392b'}
-                      onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#e74c3c'}
-                      onClick={handleDelete}>
-                  Удалить
-              </button>
-          </div>
+                    <button style={{ width: '100%', maxWidth: '200px', height: 45, borderRadius: '4px', cursor: 'pointer', backgroundColor: '#e74c3c', color: 'white', border: 'none', fontWeight: 'bold', fontSize: '1rem', transition: 'background-color 0.2s'}} 
+                            onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#c0392b'}
+                            onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#e74c3c'}
+                            onClick={handleDelete}>
+                        Удалить
+                    </button>
+                </div>
+            )}
         </div>
       </div>
     </div>
