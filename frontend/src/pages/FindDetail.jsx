@@ -48,7 +48,7 @@ const FindDetail = () => {
 
   const isAuthor = Boolean(
       currentUsername && 
-      (find?.author?.username === currentUsername || find?.author === currentUsername)
+      (find?.author_name === currentUsername || find?.author?.username === currentUsername)
   );
 
 
